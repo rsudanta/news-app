@@ -9,4 +9,6 @@
         android:id="@+id/savedNewsFragment"
         android:icon="@drawable/ic_saved_news"
         android:title="Saved News" />
+
+
 </menu>

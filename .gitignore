@@ -13,5 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-
-app/src/main/res/values/api_key.xml
+app/src/main/java/com/rsudanta/newsapp/util/ApiKey.kt
