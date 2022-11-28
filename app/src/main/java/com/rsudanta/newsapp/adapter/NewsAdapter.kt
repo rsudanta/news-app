@@ -7,16 +7,15 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.rsudanta.newsapp.databinding.ItemArticlePreviewBinding
+import com.rsudanta.newsapp.databinding.ItemArticleBreakingNewsPreviewBinding
 import com.rsudanta.newsapp.models.Article
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
-    inner class ArticleViewHolder(binding: ItemArticlePreviewBinding) :
+    inner class ArticleViewHolder(binding: ItemArticleBreakingNewsPreviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val ivArticleImage = binding.ivArticleImage
         val tvSource = binding.tvSource
-        val tvDescription = binding.tvDescription
         val tvTitle = binding.tvTitle
         val tvPublishedAt = binding.tvPublishedAt
     }
@@ -35,7 +34,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         return ArticleViewHolder(
-            ItemArticlePreviewBinding.inflate(
+            ItemArticleBreakingNewsPreviewBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -51,7 +50,6 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
                 .into(holder.ivArticleImage)
             holder.tvSource.text = article.source.name
             holder.tvTitle.text = article.title
-            holder.tvDescription.text = article.description
             holder.tvPublishedAt.text = article.publishedAt
             setOnClickListener {
                 onItemClickListener?.let {

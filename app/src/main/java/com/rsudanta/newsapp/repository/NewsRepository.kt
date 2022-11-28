@@ -5,7 +5,8 @@ import com.rsudanta.newsapp.data.remote.NewsAPI
 import javax.inject.Inject
 
 class NewsRepository @Inject constructor(val db: ArticleDatabase, val api: NewsAPI) {
-    suspend fun getNews(countryCode: String, pageNumber: Int) = api.getNews(countryCode, pageNumber)
+    suspend fun getBreakingNews(countryCode: String, pageNumber: Int) =
+        api.getBreakingNews(countryCode, pageNumber)
 
 //    suspend fun searchNews
 }

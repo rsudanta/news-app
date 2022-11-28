@@ -1,6 +1,5 @@
 package com.rsudanta.newsapp.ui
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,13 +17,13 @@ class NewsViewModel @Inject constructor(private val newsRepository: NewsReposito
     val newsPage = 1
 
     init {
-        getNews("id")
+        getBreakingNews("id")
     }
 
-    private fun getNews(countryCode: String) {
+    private fun getBreakingNews(countryCode: String) {
         viewModelScope.launch {
             news.postValue(Resource.Loading())
-            val response = newsRepository.getNews(countryCode, newsPage)
+            val response = newsRepository.getBreakingNews(countryCode, newsPage)
             news.postValue(handleNewsResponse(response))
         }
     }
