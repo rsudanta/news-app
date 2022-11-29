@@ -2,10 +2,10 @@ package com.rsudanta.newsapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.rsudanta.newsapp.adapter.NewsAdapter
+import com.rsudanta.newsapp.adapter.BreakingNewsAdapter
+import com.rsudanta.newsapp.adapter.CategoryAdapter
 import com.rsudanta.newsapp.data.local.ArticleDatabase
 import com.rsudanta.newsapp.data.remote.NewsAPI
-import com.rsudanta.newsapp.repository.NewsRepository
 import com.rsudanta.newsapp.util.Constant.BASE_URL
 import com.rsudanta.newsapp.util.Constant.DATABASE_NAME
 import dagger.Module
@@ -43,5 +43,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsAdapter(): NewsAdapter = NewsAdapter()
+    fun provideNewsAdapter(): BreakingNewsAdapter =
+        BreakingNewsAdapter()
+
+    @Provides
+    @Singleton
+    fun provideCategoryAdapter(): CategoryAdapter =
+        CategoryAdapter()
 }
