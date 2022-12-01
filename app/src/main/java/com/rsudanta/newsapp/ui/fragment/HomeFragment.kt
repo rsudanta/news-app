@@ -1,6 +1,5 @@
 package com.rsudanta.newsapp.ui.fragment
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.rsudanta.newsapp.adapter.BreakingNewsAdapter
 import com.rsudanta.newsapp.adapter.CategoryAdapter
+import com.rsudanta.newsapp.adapter.NewsAdapter
 import com.rsudanta.newsapp.databinding.FragmentHomeBinding
 import com.rsudanta.newsapp.ui.NewsViewModel
 import com.rsudanta.newsapp.util.ItemSpacingDecoration
@@ -34,6 +31,9 @@ class HomeFragment : Fragment() {
     lateinit var breakingNewsAdapter: BreakingNewsAdapter
 
     @Inject
+    lateinit var newsAdapter: NewsAdapter
+
+    @Inject
     lateinit var categoryAdapter: CategoryAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     var onScroll: Boolean = false
@@ -49,18 +49,38 @@ class HomeFragment : Fragment() {
             onScroll = false
             autoScrollFeaturesList()
         }
-        viewModel.news.observe(viewLifecycleOwner) { response ->
+        viewModel.breakingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
-                    response.data?.let { news ->
-                        breakingNewsAdapter.differ.submitList(news.articles)
+                    response.data?.let { breakingNews ->
+                        breakingNewsAdapter.differ.submitList(breakingNews.articles)
                     }
                 }
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Log.e("HomeNewsFragment", "An error occured: $message")
+                        Log.e("HomeNewsFragment", "An error occurred: $message")
+                    }
+                }
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
+            }
+        }
+
+        viewModel.news.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let { news ->
+                        newsAdapter.differ.submitList(news.articles)
+                    }
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+                    response.message?.let { message ->
+                        Log.e("HomeNewsFragment", "An error occurred: $message")
                     }
                 }
                 is Resource.Loading -> {
@@ -73,11 +93,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun hideProgressBar() {
-        binding.paginationProgressBar.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.INVISIBLE
+        binding.tvCategories.visibility = View.VISIBLE
+        binding.tvExplore.visibility = View.VISIBLE
+        binding.rvCategory.visibility = View.VISIBLE
     }
 
     private fun showProgressBar() {
-        binding.paginationProgressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
+        binding.tvCategories.visibility = View.INVISIBLE
+        binding.tvExplore.visibility = View.INVISIBLE
+        binding.rvCategory.visibility = View.INVISIBLE
     }
 
     private fun setupRecyclerView() {
@@ -97,6 +123,11 @@ class HomeFragment : Fragment() {
             layoutManager = GridLayoutManager(activity, 4)
             val itemSpacingDecoration = ItemSpacingDecoration(40)
             addItemDecoration(itemSpacingDecoration)
+        }
+
+        binding.rvNews.apply {
+            adapter = newsAdapter
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         }
     }
 

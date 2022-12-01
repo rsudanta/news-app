@@ -20,6 +20,17 @@ interface NewsAPI {
         pageSize: Int = 5
     ): Response<News>
 
+    @GET("v2/top-headlines")
+    @Headers("x-api-key:${API_KEY}")
+    suspend fun getNews(
+        @Query("country")
+        countryCode: String = "us",
+        @Query("page")
+        pageNumber: Int = 1,
+        @Query("category")
+        category: String = ""
+    ): Response<News>
+
     @GET("v2/everything")
     @Headers("x-api-key:${API_KEY}")
     suspend fun searchNews(

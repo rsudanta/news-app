@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">News App</string>
-    <string name="categories">Categories</string>
+    <string name="categories">Topics</string>
     <string name="home">Home</string>
     <string name="saved_news">Saved News</string>
+    <string name="explore">Explore</string>
 </resources>

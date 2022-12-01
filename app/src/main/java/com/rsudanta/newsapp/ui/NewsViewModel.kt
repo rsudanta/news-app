@@ -13,17 +13,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(private val newsRepository: NewsRepository) : ViewModel() {
+    val breakingNews: MutableLiveData<Resource<News>> = MutableLiveData()
     val news: MutableLiveData<Resource<News>> = MutableLiveData()
-    val newsPage = 1
+    private val newsPage = 1
 
     init {
         getBreakingNews("id")
+        getNews("id")
     }
 
     private fun getBreakingNews(countryCode: String) {
         viewModelScope.launch {
-            news.postValue(Resource.Loading())
+            breakingNews.postValue(Resource.Loading())
             val response = newsRepository.getBreakingNews(countryCode, newsPage)
+            breakingNews.postValue(handleNewsResponse(response))
+        }
+    }
+
+    private fun getNews(countryCode: String) {
+        viewModelScope.launch {
+            news.postValue(Resource.Loading())
+            val response = newsRepository.getNews(countryCode, 2, "")
             news.postValue(handleNewsResponse(response))
         }
     }

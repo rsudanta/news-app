@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.rsudanta.newsapp.adapter.BreakingNewsAdapter
 import com.rsudanta.newsapp.adapter.CategoryAdapter
+import com.rsudanta.newsapp.adapter.NewsAdapter
 import com.rsudanta.newsapp.data.local.ArticleDatabase
 import com.rsudanta.newsapp.data.remote.NewsAPI
 import com.rsudanta.newsapp.util.Constant.BASE_URL
@@ -43,11 +44,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNewsAdapter(): BreakingNewsAdapter =
+    fun provideBreakingNewsAdapter(): BreakingNewsAdapter =
         BreakingNewsAdapter()
 
     @Provides
     @Singleton
     fun provideCategoryAdapter(): CategoryAdapter =
         CategoryAdapter()
+
+    @Provides
+    @Singleton
+    fun provideNewsAdapter(): NewsAdapter =
+        NewsAdapter()
 }
