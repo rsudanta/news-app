@@ -1,5 +1,8 @@
 package com.rsudanta.newsapp.ui
 
+import android.content.res.Resources
+import android.os.Build
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,18 +14,26 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
+
 @HiltViewModel
 class NewsViewModel @Inject constructor(private val newsRepository: NewsRepository) : ViewModel() {
     val breakingNews: MutableLiveData<Resource<News>> = MutableLiveData()
     val news: MutableLiveData<Resource<News>> = MutableLiveData()
     private val newsPage = 1
 
-    init {
-        getBreakingNews("id")
-        getNews("id")
+    private val countryCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Resources.getSystem().configuration.locales.get(0).toString().substring(3)
+    } else {
+        Resources.getSystem().configuration.locale.toString().substring(3)
     }
 
-    private fun getBreakingNews(countryCode: String) {
+    init {
+        Log.d("current", countryCode)
+        getBreakingNews()
+        getNews()
+    }
+
+    private fun getBreakingNews() {
         viewModelScope.launch {
             breakingNews.postValue(Resource.Loading())
             val response = newsRepository.getBreakingNews(countryCode, newsPage)
@@ -30,7 +41,7 @@ class NewsViewModel @Inject constructor(private val newsRepository: NewsReposito
         }
     }
 
-    private fun getNews(countryCode: String) {
+    private fun getNews() {
         viewModelScope.launch {
             news.postValue(Resource.Loading())
             val response = newsRepository.getNews(countryCode, 2, "")
@@ -46,4 +57,6 @@ class NewsViewModel @Inject constructor(private val newsRepository: NewsReposito
         }
         return Resource.Error(response.message())
     }
+
+
 }

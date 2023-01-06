@@ -9,6 +9,9 @@ import com.rsudanta.newsapp.databinding.ItemCategoryPreviewBinding
 import com.rsudanta.newsapp.models.Category
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryAdapter>() {
+
+    private var onClickListener: OnClickListener? = null
+
     private val categories =
         listOf(
             Category("Business", R.drawable.ic_business),
@@ -44,10 +47,22 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryAdapter>() 
                 .into(holder.ivIconCategory)
             holder.tvTitleCategory.text = category.title
         }
+
+        holder.itemView.setOnClickListener {
+            onClickListener?.onClick(category.title)
+        }
     }
 
     override fun getItemCount(): Int {
         return categories.size
+    }
+
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+    interface OnClickListener {
+        fun onClick(category: String)
     }
 
 }

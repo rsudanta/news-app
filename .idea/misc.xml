@@ -5,18 +5,30 @@
       <map>
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/breaking_news_card_rounded_shape.xml" value="0.1065" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/circle_dot.xml" value="0.124" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/custom_input.xml" value="0.1215" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/gradient_overlay.xml" value="0.1065" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/ic_business.xml" value="0.1215" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/ic_health.xml" value="0.1215" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/ic_home.xml" value="0.1065" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1065" />
-        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout-v28/fragment_home.xml" value="0.128" />
-        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/activity_news.xml" value="0.264" />
-        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/fragment_article.xml" value="0.11302083333333333" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/ic_search.xml" value="0.1215" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/drawable/ic_search_16dp.xml" value="0.1215" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout-v28/fragment_home.xml" value="0.264" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout-v28/fragment_splashscreen.xml" value="0.1" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/activity_news.xml" value="0.2" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/activity_splash_screen.xml" value="0.1" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/fragment_article.xml" value="0.264" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/fragment_category.xml" value="0.4" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/fragment_home.xml" value="0.176" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/fragment_saved_news.xml" value="0.11302083333333333" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/fragment_search.xml" value="0.4" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/fragment_splash_screen.xml" value="0.20863616930312098" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/fragment_splashscreen.xml" value="0.2" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/item_article_breaking_news_preview.xml" value="0.4" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/item_article_preview.xml" value="0.2" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/layout/item_category_preview.xml" value="0.4" />
         <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.2" />
+        <entry key="..\:/project/Android Portofolio/News App/app/src/main/res/menu/toolbar_menu.xml" value="0.4" />
       </map>
     </option>
   </component>

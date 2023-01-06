@@ -1,6 +1,5 @@
 package com.rsudanta.newsapp.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,23 +8,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.rsudanta.newsapp.R
-import com.rsudanta.newsapp.databinding.FragmentArticleBinding
-import com.rsudanta.newsapp.ui.NewsActivity
+import com.rsudanta.newsapp.databinding.FragmentSplashScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ArticleFragment : Fragment() {
+class SplashScreenFragment : Fragment() {
 
-    private var _binding: FragmentArticleBinding? = null
+    private var _binding: FragmentSplashScreenBinding? = null
     private val binding get() = _binding!!
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentArticleBinding.inflate(inflater, container, false)
+        _binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            lifecycleScope.launchWhenResumed {
+                findNavController().navigate(R.id.action_splashScreenFragment_to_homeFragment)
+            }
+        }, 3000L)
 
         return binding.root
     }

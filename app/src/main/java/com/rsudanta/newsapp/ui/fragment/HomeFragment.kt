@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import com.rsudanta.newsapp.R
 import com.rsudanta.newsapp.adapter.BreakingNewsAdapter
 import com.rsudanta.newsapp.adapter.CategoryAdapter
 import com.rsudanta.newsapp.adapter.NewsAdapter
@@ -45,6 +47,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupRecyclerView()
         lifecycleScope.launchWhenResumed {
+
             delay(5000)
             onScroll = false
             autoScrollFeaturesList()
@@ -123,6 +126,14 @@ class HomeFragment : Fragment() {
             layoutManager = GridLayoutManager(activity, 4)
             val itemSpacingDecoration = ItemSpacingDecoration(40)
             addItemDecoration(itemSpacingDecoration)
+            categoryAdapter.setOnClickListener(object : CategoryAdapter.OnClickListener {
+                override fun onClick(category: String) {
+                    val action =
+                        HomeFragmentDirections.actionHomeFragmentToCategoryFragment(category)
+                    findNavController().navigate(action)
+                }
+
+            })
         }
 
         binding.rvNews.apply {
