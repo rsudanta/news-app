@@ -3,23 +3,33 @@ package com.rsudanta.newsapp.ui
 import android.content.res.Resources
 import android.os.Build
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rsudanta.newsapp.models.News
+import com.rsudanta.newsapp.models.SearchHistory
+import com.rsudanta.newsapp.repository.HistoryRepository
 import com.rsudanta.newsapp.repository.NewsRepository
 import com.rsudanta.newsapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
 
 @HiltViewModel
-class NewsViewModel @Inject constructor(private val newsRepository: NewsRepository) : ViewModel() {
+class NewsViewModel @Inject constructor(
+    private val newsRepository: NewsRepository,
+    private val historyRepository: HistoryRepository
+) : ViewModel() {
     val breakingNews: MutableLiveData<Resource<News>> = MutableLiveData()
     val news: MutableLiveData<Resource<News>> = MutableLiveData()
     var categorizedNews: MutableLiveData<Resource<News>> = MutableLiveData()
+
+    var searchHistory: MutableLiveData<List<SearchHistory>> = MutableLiveData()
+
 
     private val newsPage = 1
 
@@ -30,7 +40,6 @@ class NewsViewModel @Inject constructor(private val newsRepository: NewsReposito
     }
 
     init {
-        Log.d("current", countryCode)
         getBreakingNews()
         getNews()
     }
@@ -68,5 +77,24 @@ class NewsViewModel @Inject constructor(private val newsRepository: NewsReposito
         return Resource.Error(response.message())
     }
 
+    fun saveSearchHistory(searchHistory: SearchHistory) {
+        viewModelScope.launch {
+            historyRepository.saveSearchHistory(searchHistory)
+        }
+    }
+
+    fun getSearchHistory() {
+        viewModelScope.launch {
+            historyRepository.getSearchHistory().collect {
+                searchHistory.postValue(it)
+            }
+        }
+    }
+
+    fun deleteSearchHistory(searchHistory: SearchHistory){
+        viewModelScope.launch {
+            historyRepository.deleteSearchHistory(searchHistory)
+        }
+    }
 
 }
