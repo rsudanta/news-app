@@ -12,6 +12,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rsudanta.newsapp.adapter.SearchHistoryAdapter
 import com.rsudanta.newsapp.databinding.FragmentSearchBinding
@@ -27,6 +28,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<NewsViewModel>()
+    private val args: SearchResultFragmentArgs by navArgs()
 
     @Inject
     lateinit var searchHistoryAdapter: SearchHistoryAdapter
@@ -52,6 +54,11 @@ class SearchFragment : Fragment() {
                     val searchHistory = SearchHistory(keyword = keyword)
                     if (keyword.isNotEmpty()) {
                         viewModel.saveSearchHistory(searchHistory)
+                        val action =
+                            SearchFragmentDirections.actionSearchFragmentToSearchResultFragment(
+                                keyword
+                            )
+                        findNavController().navigate(action)
                     }
                     true
                 }
@@ -71,18 +78,28 @@ class SearchFragment : Fragment() {
             adapter = searchHistoryAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             searchHistoryAdapter.onClickListener(object : SearchHistoryAdapter.OnClickListener {
-                override fun onDeleteClick(searchHistory: SearchHistory) {
-                    viewModel.deleteSearchHistory(searchHistory)
+                override fun onDeleteClick(keyword: String) {
+                    Log.d("delete","clicked $keyword")
+                    viewModel.deleteSearchHistory(keyword)
                 }
 
                 override fun onKeywordClick(keyword: String) {
-                    Log.d("Keyword:", keyword)
+                    val action =
+                        SearchFragmentDirections.actionSearchFragmentToSearchResultFragment(keyword)
+                    findNavController().navigate(action)
+                    viewModel.saveSearchHistory(SearchHistory(keyword = keyword))
                 }
             })
         }
     }
 
     private fun editTextSetup() {
+        val keyword = args.keyword
+        if(keyword.isNotEmpty()){
+            binding.ivClear.visibility = View.VISIBLE
+        }
+        binding.etSearch.setText(keyword)
+        binding.etSearch.setSelection(keyword.length)
         binding.etSearch.doOnTextChanged { text, _, _, _ ->
             if (text.toString().trim().isEmpty()) {
                 binding.ivClear.visibility = View.GONE

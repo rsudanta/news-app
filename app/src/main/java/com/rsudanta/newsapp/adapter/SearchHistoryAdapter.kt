@@ -45,7 +45,7 @@ class SearchHistoryAdapter : RecyclerView.Adapter<SearchHistoryAdapter.SearchHis
         holder.itemView.apply {
             holder.tvSearchHistory.text = searchHistory.keyword
             holder.ivDeleteHistory.setOnClickListener {
-                onClickListener?.onDeleteClick(searchHistory)
+                onClickListener?.onDeleteClick(searchHistory.keyword)
             }
             holder.itemView.setOnClickListener {
                 onClickListener?.onKeywordClick(searchHistory.keyword)
@@ -62,7 +62,7 @@ class SearchHistoryAdapter : RecyclerView.Adapter<SearchHistoryAdapter.SearchHis
     }
 
     interface OnClickListener {
-        fun onDeleteClick(searchHistory: SearchHistory)
+        fun onDeleteClick(keyword: String)
         fun onKeywordClick(keyword: String)
     }
 

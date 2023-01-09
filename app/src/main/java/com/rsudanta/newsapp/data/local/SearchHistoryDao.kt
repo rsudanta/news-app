@@ -9,9 +9,9 @@ interface SearchHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveSearchHistory(searchHistory: SearchHistory)
 
-    @Query("SELECT * FROM searchhistory ORDER BY id DESC")
+    @Query("SELECT DISTINCT keyword FROM searchhistory ORDER BY id DESC")
     fun getSearchHistory(): Flow<List<SearchHistory>>
 
-    @Delete
-    suspend fun deleteSearchHistory(searchHistory: SearchHistory)
+    @Query("DELETE FROM searchhistory WHERE keyword = :keyword")
+    suspend fun deleteSearchHistory(keyword: String)
 }

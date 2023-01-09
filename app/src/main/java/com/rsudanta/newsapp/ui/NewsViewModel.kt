@@ -91,9 +91,9 @@ class NewsViewModel @Inject constructor(
         }
     }
 
-    fun deleteSearchHistory(searchHistory: SearchHistory){
+    fun deleteSearchHistory(keyword:String){
         viewModelScope.launch {
-            historyRepository.deleteSearchHistory(searchHistory)
+            historyRepository.deleteSearchHistory(keyword)
         }
     }
 

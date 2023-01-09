@@ -15,6 +15,6 @@ class HistoryRepository @Inject constructor(private val searchHistoryDao: Search
     fun getSearchHistory() =
         searchHistoryDao.getSearchHistory()
 
-    suspend fun deleteSearchHistory(searchHistory: SearchHistory) =
-        searchHistoryDao.deleteSearchHistory(searchHistory)
+    suspend fun deleteSearchHistory(keyword: String) =
+        searchHistoryDao.deleteSearchHistory(keyword)
 }
