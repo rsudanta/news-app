@@ -52,6 +52,12 @@ class HomeFragment : Fragment() {
             onScroll = false
             autoScrollFeaturesList()
         }
+        loadData()
+
+        return binding.root
+    }
+
+    private fun loadData() {
         viewModel.breakingNews.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
@@ -91,8 +97,6 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-
-        return binding.root
     }
 
     private fun hideProgressBar() {

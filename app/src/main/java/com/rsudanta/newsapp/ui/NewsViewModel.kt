@@ -19,6 +19,8 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(private val newsRepository: NewsRepository) : ViewModel() {
     val breakingNews: MutableLiveData<Resource<News>> = MutableLiveData()
     val news: MutableLiveData<Resource<News>> = MutableLiveData()
+    var categorizedNews: MutableLiveData<Resource<News>> = MutableLiveData()
+
     private val newsPage = 1
 
     private val countryCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -36,7 +38,7 @@ class NewsViewModel @Inject constructor(private val newsRepository: NewsReposito
     private fun getBreakingNews() {
         viewModelScope.launch {
             breakingNews.postValue(Resource.Loading())
-            val response = newsRepository.getBreakingNews(countryCode, newsPage)
+            val response = newsRepository.getNews(countryCode, 1, "", 5)
             breakingNews.postValue(handleNewsResponse(response))
         }
     }
@@ -46,6 +48,14 @@ class NewsViewModel @Inject constructor(private val newsRepository: NewsReposito
             news.postValue(Resource.Loading())
             val response = newsRepository.getNews(countryCode, 2, "")
             news.postValue(handleNewsResponse(response))
+        }
+    }
+
+    fun getCategorizedNews(category: String) {
+        viewModelScope.launch {
+            categorizedNews.postValue(Resource.Loading())
+            val response = newsRepository.getNews(countryCode, 1, category)
+            categorizedNews.postValue(handleNewsResponse(response))
         }
     }
 

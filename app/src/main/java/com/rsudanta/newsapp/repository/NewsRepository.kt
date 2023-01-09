@@ -6,10 +6,7 @@ import com.rsudanta.newsapp.models.Category
 import javax.inject.Inject
 
 class NewsRepository @Inject constructor(val db: ArticleDatabase, val api: NewsAPI) {
-    suspend fun getBreakingNews(countryCode: String, pageNumber: Int) =
-        api.getBreakingNews(countryCode, pageNumber)
 
-    suspend fun getNews(countryCode: String, pageNumber: Int, category: String) =
-        api.getNews(countryCode, pageNumber, category)
-
+    suspend fun getNews(countryCode: String, pageNumber: Int, category: String, pageSize:Int? = null) =
+        api.getNews(countryCode, pageNumber, category, pageSize)
 }

@@ -11,7 +11,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rsudanta.newsapp.R
 import com.rsudanta.newsapp.databinding.ActivityNewsBinding
+import com.rsudanta.newsapp.ui.fragment.CategoryFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
@@ -31,6 +33,7 @@ class NewsActivity : AppCompatActivity() {
 
     private fun setupUI() {
         binding.bottomNavigationView.setupWithNavController(navController)
+
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
             when (navDestination.id) {
                 R.id.homeFragment -> {
@@ -40,6 +43,10 @@ class NewsActivity : AppCompatActivity() {
                 R.id.savedNewsFragment -> {
                     showBottomNav()
                     showToolbar()
+                }
+                R.id.categoryFragment -> {
+                    showToolbar()
+                    hideBottomNav()
                 }
                 else -> {
                     hideBottomNav()
@@ -69,8 +76,24 @@ class NewsActivity : AppCompatActivity() {
 
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar)
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayShowTitleEnabled(false)
+        navController.addOnDestinationChangedListener { _, navDestination, args ->
+            when (navDestination.id) {
+                R.id.categoryFragment -> {
+                    val category:String = args?.get("category") as String
+                    supportActionBar?.setDisplayShowTitleEnabled(true)
+                    supportActionBar?.title = category
+                    binding.ivLogo.visibility = View.GONE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                else -> {
+                    binding.ivLogo.visibility = View.VISIBLE
+                    supportActionBar?.setDisplayShowTitleEnabled(false)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                }
+            }
+        }
+        binding.toolbar.setNavigationOnClickListener {
+            navController.popBackStack()
         }
     }
 
@@ -80,8 +103,8 @@ class NewsActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
             when (navDestination.id) {
-                R.id.homeFragment -> item?.isVisible = true
-                else -> item?.isVisible = false
+                R.id.savedNewsFragment -> item?.isVisible = false
+                else -> item?.isVisible = true
             }
         }
         return super.onCreateOptionsMenu(menu)
