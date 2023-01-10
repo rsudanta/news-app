@@ -8,10 +8,13 @@ import javax.inject.Inject
 class NewsRepository @Inject constructor(private val api: NewsAPI) {
 
     suspend fun getNews(
-        countryCode: String,
+        country:String = "us",
         pageNumber: Int,
-        category: String,
+        category: String= "",
         pageSize: Int? = null
     ) =
-        api.getNews(countryCode, pageNumber, category, pageSize)
+        api.getNews(country,pageNumber, category, pageSize)
+
+
+    suspend fun searchNews(keyword: String, pageNumber: Int) = api.searchNews(keyword, pageNumber)
 }

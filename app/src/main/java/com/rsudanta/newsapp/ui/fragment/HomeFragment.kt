@@ -123,6 +123,10 @@ class HomeFragment : Fragment() {
             addItemDecoration(pagerIndicatorDecoration)
             val snapHelper = PagerSnapHelper()
             snapHelper.attachToRecyclerView(this)
+            breakingNewsAdapter.setOnItemClickListener { article ->
+                val action = HomeFragmentDirections.actionHomeFragmentToArticleFragment(article.url)
+                findNavController().navigate(action)
+            }
         }
 
         binding.rvCategory.apply {
@@ -130,19 +134,20 @@ class HomeFragment : Fragment() {
             layoutManager = GridLayoutManager(activity, 4)
             val itemSpacingDecoration = ItemSpacingDecoration(40)
             addItemDecoration(itemSpacingDecoration)
-            categoryAdapter.setOnClickListener(object : CategoryAdapter.OnClickListener {
-                override fun onClick(category: String) {
-                    val action =
-                        HomeFragmentDirections.actionHomeFragmentToCategoryFragment(category)
-                    findNavController().navigate(action)
-                }
-
-            })
+            categoryAdapter.setOnClickListener { category ->
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToCategoryFragment(category)
+                findNavController().navigate(action)
+            }
         }
 
         binding.rvNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            newsAdapter.setOnItemClickListener { article ->
+                val action = HomeFragmentDirections.actionHomeFragmentToArticleFragment(article.url)
+                findNavController().navigate(action)
+            }
         }
     }
 

@@ -10,7 +10,7 @@ import com.rsudanta.newsapp.models.Category
 
 class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryAdapter>() {
 
-    private var onClickListener: OnClickListener? = null
+    private var onClickListener: ((String) -> Unit)? = null
 
     private val categories =
         listOf(
@@ -49,7 +49,9 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryAdapter>() 
         }
 
         holder.itemView.setOnClickListener {
-            onClickListener?.onClick(category.title)
+            onClickListener?.let {
+                it(category.title)
+            }
         }
     }
 
@@ -57,12 +59,9 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryAdapter>() 
         return categories.size
     }
 
-    fun setOnClickListener(onClickListener: OnClickListener) {
-        this.onClickListener = onClickListener
+    fun setOnClickListener(listener: (String) -> Unit) {
+        onClickListener = listener
     }
 
-    interface OnClickListener {
-        fun onClick(category: String)
-    }
 
 }

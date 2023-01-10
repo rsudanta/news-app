@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rsudanta.newsapp.adapter.NewsAdapter
@@ -38,7 +39,7 @@ class CategoryFragment : Fragment() {
         return binding.root
     }
 
-    private fun loadData(){
+    private fun loadData() {
         val category = args.category
         viewModel.getCategorizedNews(category)
 
@@ -48,12 +49,17 @@ class CategoryFragment : Fragment() {
                     hideProgressBar()
                     response.data?.let { news ->
                         newsAdapter.differ.submitList(news.articles)
+                        if (news.articles.isEmpty()) {
+                            binding.rlEmpty.visibility = View.VISIBLE
+                        } else {
+                            binding.rlEmpty.visibility = View.INVISIBLE
+                        }
                     }
                 }
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Log.e("HomeNewsFragment", "An error occurred: $message")
+                        Log.e("CategoryFragment", "An error occurred: $message")
                     }
                 }
                 is Resource.Loading -> {
@@ -68,6 +74,11 @@ class CategoryFragment : Fragment() {
         binding.rvNews.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            newsAdapter.setOnItemClickListener { article ->
+                val action =
+                    CategoryFragmentDirections.actionCategoryFragmentToArticleFragment(article.url)
+                findNavController().navigate(action)
+            }
         }
     }
 

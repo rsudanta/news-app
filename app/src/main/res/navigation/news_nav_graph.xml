@@ -12,9 +12,7 @@
             android:id="@+id/action_homeFragment_to_articleFragment"
             app:destination="@id/articleFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -25,7 +23,11 @@
     <fragment
         android:id="@+id/articleFragment"
         android:name="com.rsudanta.newsapp.ui.fragment.ArticleFragment"
-        android:label="ArticleFragment" />
+        android:label="ArticleFragment">
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/savedNewsFragment"
         android:name="com.rsudanta.newsapp.ui.fragment.SavedNewsFragment"
@@ -34,9 +36,7 @@
             android:id="@+id/action_savedNewsFragment_to_articleFragment"
             app:destination="@id/articleFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_in_right" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_savedNewsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -44,7 +44,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.rsudanta.newsapp.ui.fragment.SearchFragment"
-        android:label="SearchFragment" >
+        android:label="SearchFragment">
         <action
             android:id="@+id/action_searchFragment_to_searchResultFragment"
             app:destination="@id/searchResultFragment"
@@ -52,8 +52,8 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="keyword"
-            app:argType="string"
-            android:defaultValue="" />
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -69,15 +69,20 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.rsudanta.newsapp.ui.fragment.CategoryFragment"
-        android:label="CategoryFragment" >
+        android:label="CategoryFragment">
         <argument
             android:name="category"
             app:argType="string" />
+        <action
+            android:id="@+id/action_categoryFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/searchResultFragment"
         android:name="com.rsudanta.newsapp.ui.fragment.SearchResultFragment"
-        android:label="SearchResultFragment" >
+        android:label="SearchResultFragment">
         <argument
             android:name="keyword"
             app:argType="string" />
@@ -86,5 +91,10 @@
             app:destination="@id/searchFragment"
             app:popUpTo="@id/searchResultFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_searchResultFragment_to_articleFragment"
+            app:destination="@id/articleFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

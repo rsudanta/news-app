@@ -27,17 +27,12 @@ class NewsViewModel @Inject constructor(
     val breakingNews: MutableLiveData<Resource<News>> = MutableLiveData()
     val news: MutableLiveData<Resource<News>> = MutableLiveData()
     var categorizedNews: MutableLiveData<Resource<News>> = MutableLiveData()
+    var searchResult: MutableLiveData<Resource<News>> = MutableLiveData()
 
     var searchHistory: MutableLiveData<List<SearchHistory>> = MutableLiveData()
 
 
     private val newsPage = 1
-
-    private val countryCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Resources.getSystem().configuration.locales.get(0).toString().substring(3)
-    } else {
-        Resources.getSystem().configuration.locale.toString().substring(3)
-    }
 
     init {
         getBreakingNews()
@@ -47,7 +42,7 @@ class NewsViewModel @Inject constructor(
     private fun getBreakingNews() {
         viewModelScope.launch {
             breakingNews.postValue(Resource.Loading())
-            val response = newsRepository.getNews(countryCode, 1, "", 5)
+            val response = newsRepository.getNews(pageNumber = 1, pageSize = 5)
             breakingNews.postValue(handleNewsResponse(response))
         }
     }
@@ -55,7 +50,7 @@ class NewsViewModel @Inject constructor(
     private fun getNews() {
         viewModelScope.launch {
             news.postValue(Resource.Loading())
-            val response = newsRepository.getNews(countryCode, 2, "")
+            val response = newsRepository.getNews(pageNumber = 2)
             news.postValue(handleNewsResponse(response))
         }
     }
@@ -63,7 +58,7 @@ class NewsViewModel @Inject constructor(
     fun getCategorizedNews(category: String) {
         viewModelScope.launch {
             categorizedNews.postValue(Resource.Loading())
-            val response = newsRepository.getNews(countryCode, 1, category)
+            val response = newsRepository.getNews(pageNumber = 1, category = category)
             categorizedNews.postValue(handleNewsResponse(response))
         }
     }
@@ -74,6 +69,7 @@ class NewsViewModel @Inject constructor(
                 return Resource.Success(resultResponse)
             }
         }
+        Log.e("err", response.toString())
         return Resource.Error(response.message())
     }
 
@@ -91,9 +87,17 @@ class NewsViewModel @Inject constructor(
         }
     }
 
-    fun deleteSearchHistory(keyword:String){
+    fun deleteSearchHistory(keyword: String) {
         viewModelScope.launch {
             historyRepository.deleteSearchHistory(keyword)
+        }
+    }
+
+    fun getSearchResult(keyword: String) {
+        viewModelScope.launch {
+            searchResult.postValue(Resource.Loading())
+            val response = newsRepository.searchNews(keyword = keyword, pageNumber = 1)
+            searchResult.postValue(handleNewsResponse(response))
         }
     }
 

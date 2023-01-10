@@ -11,14 +11,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rsudanta.newsapp.R
 import com.rsudanta.newsapp.databinding.ActivityNewsBinding
-import com.rsudanta.newsapp.ui.fragment.CategoryFragmentArgs
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewsBinding
     private lateinit var navController: NavController
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -45,6 +45,10 @@ class NewsActivity : AppCompatActivity() {
                     showToolbar()
                 }
                 R.id.categoryFragment -> {
+                    showToolbar()
+                    hideBottomNav()
+                }
+                R.id.articleFragment -> {
                     showToolbar()
                     hideBottomNav()
                 }
@@ -79,10 +83,16 @@ class NewsActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, navDestination, args ->
             when (navDestination.id) {
                 R.id.categoryFragment -> {
-                    val category:String = args?.get("category") as String
+                    val category: String = args?.get("category") as String
                     supportActionBar?.setDisplayShowTitleEnabled(true)
                     supportActionBar?.title = category
                     binding.ivLogo.visibility = View.GONE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.articleFragment -> {
+                    supportActionBar?.setDisplayShowTitleEnabled(true)
+                    binding.ivLogo.visibility = View.VISIBLE
+                    supportActionBar?.setDisplayShowTitleEnabled(false)
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 else -> {
@@ -104,6 +114,7 @@ class NewsActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
             when (navDestination.id) {
                 R.id.savedNewsFragment -> item?.isVisible = false
+                R.id.articleFragment -> item?.isVisible = false
                 else -> item?.isVisible = true
             }
         }

@@ -13,21 +13,21 @@ interface NewsAPI {
     @Headers("x-api-key:${API_KEY}")
     suspend fun getNews(
         @Query("country")
-        countryCode: String = "us",
+        country: String,
         @Query("page")
-        pageNumber: Int = 1,
+        pageNumber: Int,
         @Query("category")
-        category: String = "",
+        category: String,
         @Query("pageSize")
-        pageSize: Int? = null
+        pageSize: Int?
     ): Response<News>
 
     @GET("v2/everything")
     @Headers("x-api-key:${API_KEY}")
     suspend fun searchNews(
         @Query("q")
-        searchQuery: String,
+        keyword: String,
         @Query("page")
-        pageNumber: Int = 1
+        pageNumber: Int
     ): Response<News>
 }

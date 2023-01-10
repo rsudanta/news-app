@@ -79,7 +79,6 @@ class SearchFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             searchHistoryAdapter.onClickListener(object : SearchHistoryAdapter.OnClickListener {
                 override fun onDeleteClick(keyword: String) {
-                    Log.d("delete","clicked $keyword")
                     viewModel.deleteSearchHistory(keyword)
                 }
 
