@@ -2,14 +2,11 @@ package com.rsudanta.newsapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.rsudanta.newsapp.adapter.BreakingNewsAdapter
-import com.rsudanta.newsapp.adapter.CategoryAdapter
-import com.rsudanta.newsapp.adapter.NewsAdapter
-import com.rsudanta.newsapp.adapter.SearchHistoryAdapter
+import com.rsudanta.newsapp.adapter.*
+import com.rsudanta.newsapp.data.local.ArticleDao
 import com.rsudanta.newsapp.data.local.NewsAppDatabase
 import com.rsudanta.newsapp.data.local.SearchHistoryDao
 import com.rsudanta.newsapp.data.remote.NewsAPI
-import com.rsudanta.newsapp.models.News
 import com.rsudanta.newsapp.util.Constant.BASE_URL
 import com.rsudanta.newsapp.util.Constant.DATABASE_NAME
 import dagger.Module
@@ -47,8 +44,13 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideArticleDao(database: NewsAppDatabase): ArticleDao =
+        database.articleDao()
+
+    @Singleton
+    @Provides
     fun provideSearchHistoryDao(database: NewsAppDatabase): SearchHistoryDao =
-        database.searchHistory()
+        database.searchHistoryDao()
 
     @Provides
     @Singleton
@@ -64,6 +66,11 @@ object AppModule {
     @Singleton
     fun provideNewsAdapter(): NewsAdapter =
         NewsAdapter()
+
+    @Provides
+    @Singleton
+    fun provideSavedNewsAdapter(): SavedNewsAdapter =
+        SavedNewsAdapter()
 
     @Provides
     @Singleton

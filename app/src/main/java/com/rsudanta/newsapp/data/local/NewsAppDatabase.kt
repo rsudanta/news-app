@@ -13,5 +13,5 @@ import com.rsudanta.newsapp.models.SearchHistory
 @TypeConverters(Converters::class)
 abstract class NewsAppDatabase : RoomDatabase() {
     abstract fun articleDao(): ArticleDao
-    abstract fun searchHistory(): SearchHistoryDao
+    abstract fun searchHistoryDao(): SearchHistoryDao
 }

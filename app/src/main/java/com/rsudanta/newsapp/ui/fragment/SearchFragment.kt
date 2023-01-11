@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rsudanta.newsapp.adapter.NewsAdapter
 import com.rsudanta.newsapp.adapter.SearchHistoryAdapter
 import com.rsudanta.newsapp.databinding.FragmentSearchBinding
 import com.rsudanta.newsapp.models.SearchHistory
@@ -32,6 +33,9 @@ class SearchFragment : Fragment() {
 
     @Inject
     lateinit var searchHistoryAdapter: SearchHistoryAdapter
+
+    @Inject
+    lateinit var newsAdapter: NewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +62,7 @@ class SearchFragment : Fragment() {
                             SearchFragmentDirections.actionSearchFragmentToSearchResultFragment(
                                 keyword
                             )
+                        newsAdapter.differ.submitList(emptyList())
                         findNavController().navigate(action)
                     }
                     true
@@ -83,6 +88,7 @@ class SearchFragment : Fragment() {
                 }
 
                 override fun onKeywordClick(keyword: String) {
+                    newsAdapter.differ.submitList(emptyList())
                     val action =
                         SearchFragmentDirections.actionSearchFragmentToSearchResultFragment(keyword)
                     findNavController().navigate(action)
@@ -94,7 +100,7 @@ class SearchFragment : Fragment() {
 
     private fun editTextSetup() {
         val keyword = args.keyword
-        if(keyword.isNotEmpty()){
+        if (keyword.isNotEmpty()) {
             binding.ivClear.visibility = View.VISIBLE
         }
         binding.etSearch.setText(keyword)

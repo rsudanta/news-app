@@ -3,6 +3,7 @@ package com.rsudanta.newsapp.data.local
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.rsudanta.newsapp.models.Article
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticleDao {
@@ -10,8 +11,8 @@ interface ArticleDao {
     suspend fun saveArticle(article: Article)
 
     @Query("SELECT * FROM article")
-    fun getSavedArticle(): LiveData<List<Article>>
+    fun getSavedArticle(): Flow<List<Article>>
 
-    @Delete
-    suspend fun deleteSavedArticle(article: Article)
+    @Query("DELETE FROM article WHERE url = :url")
+    suspend fun deleteSavedArticle(url: String)
 }

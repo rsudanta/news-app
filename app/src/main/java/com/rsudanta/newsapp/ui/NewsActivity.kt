@@ -10,15 +10,18 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rsudanta.newsapp.R
+import com.rsudanta.newsapp.adapter.NewsAdapter
 import com.rsudanta.newsapp.databinding.ActivityNewsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewsBinding
     private lateinit var navController: NavController
 
-
+    @Inject
+    lateinit var newsAdapter: NewsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -103,6 +106,7 @@ class NewsActivity : AppCompatActivity() {
             }
         }
         binding.toolbar.setNavigationOnClickListener {
+            newsAdapter.differ.submitList(emptyList())
             navController.popBackStack()
         }
     }

@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#F4F4F4</color>
     <color name="dark_grey">#5A5A5A</color>
-    <color name="primary">#023A6C</color>
+    <color name="secondary">#023A6C</color>
+    <color name="primary">#F6B21B</color>
     <color name="disable">#999999</color>
 </resources>

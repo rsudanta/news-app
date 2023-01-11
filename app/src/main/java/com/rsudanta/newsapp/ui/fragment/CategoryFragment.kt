@@ -63,7 +63,6 @@ class CategoryFragment : Fragment() {
                     }
                 }
                 is Resource.Loading -> {
-                    newsAdapter.differ.submitList(emptyList())
                     showProgressBar()
                 }
             }
@@ -76,7 +75,7 @@ class CategoryFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             newsAdapter.setOnItemClickListener { article ->
                 val action =
-                    CategoryFragmentDirections.actionCategoryFragmentToArticleFragment(article.url)
+                    CategoryFragmentDirections.actionCategoryFragmentToArticleFragment(article)
                 findNavController().navigate(action)
             }
         }

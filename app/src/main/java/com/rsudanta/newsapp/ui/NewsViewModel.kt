@@ -1,19 +1,16 @@
 package com.rsudanta.newsapp.ui
 
-import android.content.res.Resources
-import android.os.Build
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rsudanta.newsapp.models.Article
 import com.rsudanta.newsapp.models.News
 import com.rsudanta.newsapp.models.SearchHistory
 import com.rsudanta.newsapp.repository.HistoryRepository
 import com.rsudanta.newsapp.repository.NewsRepository
 import com.rsudanta.newsapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -28,6 +25,7 @@ class NewsViewModel @Inject constructor(
     val news: MutableLiveData<Resource<News>> = MutableLiveData()
     var categorizedNews: MutableLiveData<Resource<News>> = MutableLiveData()
     var searchResult: MutableLiveData<Resource<News>> = MutableLiveData()
+    val savedArticle: MutableLiveData<Resource<List<Article>>> = MutableLiveData()
 
     var searchHistory: MutableLiveData<List<SearchHistory>> = MutableLiveData()
 
@@ -37,6 +35,7 @@ class NewsViewModel @Inject constructor(
     init {
         getBreakingNews()
         getNews()
+        getSavedNews()
     }
 
     private fun getBreakingNews() {
@@ -98,6 +97,27 @@ class NewsViewModel @Inject constructor(
             searchResult.postValue(Resource.Loading())
             val response = newsRepository.searchNews(keyword = keyword, pageNumber = 1)
             searchResult.postValue(handleNewsResponse(response))
+        }
+    }
+
+    private fun getSavedNews() {
+        viewModelScope.launch {
+            news.postValue(Resource.Loading())
+            historyRepository.getSavedNews().collect { articles ->
+                savedArticle.postValue(Resource.Success(articles))
+            }
+        }
+    }
+
+    fun saveArticle(article: Article) {
+        viewModelScope.launch {
+            historyRepository.saveArticle(article)
+        }
+    }
+
+    fun deleteSavedArticle(url:String) {
+        viewModelScope.launch {
+            historyRepository.deleteSavedArticle(url)
         }
     }
 

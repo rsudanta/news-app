@@ -124,7 +124,7 @@ class HomeFragment : Fragment() {
             val snapHelper = PagerSnapHelper()
             snapHelper.attachToRecyclerView(this)
             breakingNewsAdapter.setOnItemClickListener { article ->
-                val action = HomeFragmentDirections.actionHomeFragmentToArticleFragment(article.url)
+                val action = HomeFragmentDirections.actionHomeFragmentToArticleFragment(article)
                 findNavController().navigate(action)
             }
         }
@@ -137,6 +137,7 @@ class HomeFragment : Fragment() {
             categoryAdapter.setOnClickListener { category ->
                 val action =
                     HomeFragmentDirections.actionHomeFragmentToCategoryFragment(category)
+                newsAdapter.differ.submitList(emptyList())
                 findNavController().navigate(action)
             }
         }
@@ -145,7 +146,7 @@ class HomeFragment : Fragment() {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             newsAdapter.setOnItemClickListener { article ->
-                val action = HomeFragmentDirections.actionHomeFragmentToArticleFragment(article.url)
+                val action = HomeFragmentDirections.actionHomeFragmentToArticleFragment(article)
                 findNavController().navigate(action)
             }
         }

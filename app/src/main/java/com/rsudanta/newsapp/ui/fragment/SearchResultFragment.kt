@@ -89,7 +89,6 @@ class SearchResultFragment : Fragment() {
                     }
                 }
                 is Resource.Loading -> {
-                    newsAdapter.differ.submitList(emptyList())
                     showProgressBar()
                 }
             }
@@ -103,7 +102,7 @@ class SearchResultFragment : Fragment() {
             newsAdapter.setOnItemClickListener { article ->
                 val action =
                     SearchResultFragmentDirections.actionSearchResultFragmentToArticleFragment(
-                        article.url
+                        article
                     )
                 findNavController().navigate(action)
             }
