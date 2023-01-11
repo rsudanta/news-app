@@ -1,5 +1,6 @@
 package com.rsudanta.newsapp.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -60,6 +61,17 @@ class ArticleFragment : Fragment() {
                 }
             }
         }
+
+        binding.ivShareNews.setOnClickListener {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, article.url)
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
+
 
         return binding.root
     }
