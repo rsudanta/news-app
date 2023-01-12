@@ -5,12 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
-import com.rsudanta.newsapp.R
 import com.rsudanta.newsapp.adapter.BreakingNewsAdapter
 import com.rsudanta.newsapp.adapter.CategoryAdapter
 import com.rsudanta.newsapp.adapter.NewsAdapter
@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var categoryAdapter: CategoryAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
-    var onScroll: Boolean = false
+    var isBreakingNewsScrolling: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,8 +49,8 @@ class HomeFragment : Fragment() {
         lifecycleScope.launchWhenResumed {
 
             delay(5000)
-            onScroll = false
-            autoScrollFeaturesList()
+            isBreakingNewsScrolling = false
+            breakingNewsAutoScroll()
         }
         loadData()
 
@@ -157,15 +157,15 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private tailrec suspend fun autoScrollFeaturesList() {
+    private tailrec suspend fun breakingNewsAutoScroll() {
 
-        if (linearLayoutManager.findLastVisibleItemPosition() < breakingNewsAdapter.itemCount - 1 && !onScroll) {
+        if (linearLayoutManager.findLastVisibleItemPosition() < breakingNewsAdapter.itemCount - 1 && !isBreakingNewsScrolling) {
             linearLayoutManager.smoothScrollToPosition(
                 binding.rvBreakingNews,
                 RecyclerView.State(),
                 linearLayoutManager.findLastCompletelyVisibleItemPosition() + 1
             )
-        } else if (linearLayoutManager.findLastVisibleItemPosition() == breakingNewsAdapter.itemCount - 1 && !onScroll) {
+        } else if (linearLayoutManager.findLastVisibleItemPosition() == breakingNewsAdapter.itemCount - 1 && !isBreakingNewsScrolling) {
             linearLayoutManager.smoothScrollToPosition(
                 binding.rvBreakingNews,
                 RecyclerView.State(),
@@ -176,16 +176,12 @@ class HomeFragment : Fragment() {
         binding.rvBreakingNews.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                onScroll = false
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                onScroll = true
+                isBreakingNewsScrolling =
+                    newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
             }
         })
         delay(5000L)
-        autoScrollFeaturesList()
+        breakingNewsAutoScroll()
     }
 }
 
