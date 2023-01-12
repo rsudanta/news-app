@@ -1,5 +1,5 @@
 # News App
- Android news application brought news from a variety of sources using [News API](https://exchangeratesapi.io/).
+ Android news application that brought news from a variety of sources using [News API](https://exchangeratesapi.io/).
 ## Tech stack & Open-source libraries
 - [Kotlin](https://kotlinlang.org/) based.
 - [Dagger Hilt](https://dagger.dev/hilt/) for dependency injection.
